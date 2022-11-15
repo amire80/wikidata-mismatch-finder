@@ -68,6 +68,7 @@ class ResultsController extends Controller
                 // Use wikidata to fetch labels for found entity ids
                 'labels' => $wikidata->getLabels($entityIds, $lang),
                 'formatted_values' => $formattedTimeValues,
+                'datatypes' => $datatypes,
             ],
             // only add 'results' prop if mismatches have been found
             $mismatches->isNotEmpty() ? [ 'results' => $mismatches->groupBy('item_id') ] : []

@@ -218,6 +218,9 @@
                 type: Object as PropType<FormattedValueMap>,
                 default: () => ({}),
             },
+            datatypes: {
+                type: Object as PropType<Record<string, string>>
+            },
         },
         computed: {
             notFoundItemIds() {
@@ -279,6 +282,15 @@
                     }
                     return labelled;
                 });
+            },
+            getValueLabel(mismatch: Mismatch): string | null {
+                switch ( this.datatypes[ mismatch.property_id ] ) {
+                case 'wikibase-item':
+                    return this.labels[ mismatch.wikidata_value ] || null;
+                case 'time':
+                    return this.formatted_values[ mismatch.property_id ]?.[ mismatch.wikidata_value ] || null;
+                }
+                return null;
             },
             recordDecision( decision: MismatchDecision): void {
                 const itemDecisions = this.decisions[decision.item_id];
